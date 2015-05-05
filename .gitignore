@@ -1,0 +1,9 @@
+*.fasta
+*.fastq
+*.trim
+*.abundfilt
+*.txt
+*.sra
+*.pyc
+old/*
+BLAST/*
