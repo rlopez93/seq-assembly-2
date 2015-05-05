@@ -38,8 +38,8 @@ for record in screed.open(infilename):
 
     name = record['name']
     # annotations = record['annotations']
-    accuracy = record['accuracy'][:len(new_seq)]
+    quality = record['quality'][:len(new_seq)]
 
     print("@", name, sep='')
     print(''.join(new_seq))
-    print('+\n{}'.format(accuracy))
+    print('+\n{}'.format(quality))
