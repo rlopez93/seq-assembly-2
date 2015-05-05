@@ -1,4 +1,15 @@
 #! /usr/bin/env python
+"""
+Receives DNA read data as input in FASTA or FASTQ format
+and a k-mer size, and prints the assembled sequences
+to stdout in FASTA format.
+
+$ python assemble.py <FAST[AQ]> <ksize>
+
+Example:
+
+$ python assemble.py sample.fasta 18 > assembled.fasta
+"""
 from __future__ import print_function
 from euler import find_eulerian_path
 import sys
