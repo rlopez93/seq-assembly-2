@@ -2,11 +2,11 @@
 """
 --- assemble.py ---
 
+Usage: python assemble.py <FAST[AQ]> <ksize>
+
 Receives DNA read data as input in FASTA or FASTQ format
 and a k-mer size, and prints the assembled sequences
 to stdout in FASTA format.
-
-$ python assemble.py <FAST[AQ]> <ksize>
 
 Example:
 
@@ -128,5 +128,4 @@ for i, subgraph in enumerate(wc_subgraphs):
         #         except nx.NetworkXNoPath:
         #             # there is no path, so do nothing
         #             pass
-        # print(file=sys.stderr)
         pass
