@@ -14,7 +14,7 @@ for record in screed.open(sys.argv[1]):
 
 def print_seq(seq):
     for i, base in enumerate(seq):
-        print(base, sep='', end='')
+        print(base, end='')
         if (i+1) % 60 == 0:
             print()
     print()

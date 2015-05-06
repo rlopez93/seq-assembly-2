@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 """
+--- assemble.py ---
+
 Receives DNA read data as input in FASTA or FASTQ format
 and a k-mer size, and prints the assembled sequences
 to stdout in FASTA format.
@@ -17,7 +19,7 @@ import screed
 import networkx as nx
 
 if len(sys.argv) != 3:
-    print("Usage:", sys.argv[0], "<FAST[AQ]> <ksize>")
+    print(__doc__)
     sys.exit(1)
 
 # input file containing reads
@@ -48,13 +50,13 @@ for record in screed.open(infilename):
 def print_seq(a, seq):
     i = 0
     for base in a:
-        print(base, sep='', end='')
+        print(base, end='')
         if (i+1) % 60 == 0:
             print()
         i += 1
 
     for base in seq:
-        print(base, sep='', end='')
+        print(base, end='')
         if (i+1) % 60 == 0:
             print()
         i += 1
@@ -85,41 +87,46 @@ for i, subgraph in enumerate(wc_subgraphs):
     except nx.NetworkXError:
         # subgraph does not contain an eulerian path
 
-        # WARNING - HACK APPROACHING
-
-        # the idea is to try to extract possible
-        # sequences from the non-eulerian graph
+        # what follows is code that tries to extract
+        # possible sequences from the non-eulerian graph
 
         # to do that, I set all nodes with in degree 0
         # as possible sources and all nodes with out degree 0
         # as possible targets.
 
         # I then find a shortest path between all sources
-        # and all targets, if it exists
+        # and all targets, if it exists, and print those
+        # paths as the contigs
 
-        sources = []
-        targets = []
+        # WARNING - HACK APPROACHING
+        # uncomment if you dare
 
-        for node in subgraph:
-            ind = subgraph.in_degree(node)
-            outd = subgraph.out_degree(node)
-            if ind == 0:
-                sources.append(node)
-            if outd == 0:
-                targets.append(node)
+        # sources = []
+        # targets = []
 
-        for j, source in enumerate(sources):
-            for k, target in enumerate(targets):
-                # try will throw if there is no path between source and target
-                try:
-                    sp = nx.shortest_path(subgraph, source, target)
-                    first = sp[0]
-                    subseq = (v[-1] for v in sp[1:])
+        # for node in subgraph:
+        #     ind = subgraph.in_degree(node)
+        #     outd = subgraph.out_degree(node)
+        #     if ind == 0:
+        #         sources.append(node)
+        #     if outd == 0:
+        #         targets.append(node)
 
-                    # print sequence in FASTA format
-                    print(">{}.{}.{}".format(i, j, k))
-                    print_seq(first, subseq)
+        # for j, source in enumerate(sources):
+        #     for k, target in enumerate(targets):
+        #         # try will throw if there is no path between source and target
+        #         try:
+        #             sp = nx.shortest_path(subgraph, source, target)
 
-                except nx.NetworkXNoPath:
-                    # there is no path, so do nothing
-                    pass
+        #             first = sp[0]
+        #             subseq = (v[-1] for v in sp[1:])
+
+        #             # print sequence in FASTA format
+        #             print(">{}.{}.{}".format(i, j, k))
+        #             print_seq(first, subseq)
+
+        #         except nx.NetworkXNoPath:
+        #             # there is no path, so do nothing
+        #             pass
+        # print(file=sys.stderr)
+        pass
