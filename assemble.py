@@ -88,7 +88,7 @@ for i, subgraph in enumerate(wc_subgraphs):
         # subgraph does not contain an eulerian path
 
         # what follows is code that tries to extract
-        # possible sequences from the non-eulerian graph
+        # possible sequences from the non-eulerian subgraph
 
         # to do that, I set all nodes with in degree 0
         # as possible sources and all nodes with out degree 0
