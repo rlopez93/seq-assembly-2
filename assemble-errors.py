@@ -79,7 +79,6 @@ for i, subgraph in enumerate(wc_subgraphs):
         # paths as the contigs
 
         # WARNING - HACK APPROACHING
-        # uncomment if you dare
 
         sources = []
         targets = []
