@@ -1,16 +1,6 @@
 #! /usr/bin/env python
 """
---- assemble.py ---
-
 Usage: python assemble.py <FAST[AQ]> <ksize>
-
-Receives DNA read data as input in FASTA or FASTQ format
-and a k-mer size, and prints the assembled sequences
-to stdout in FASTA format.
-
-Example:
-
-$ python assemble.py sample.fasta 18 > assembled.fasta
 """
 from __future__ import print_function
 from euler import find_eulerian_path
@@ -72,19 +62,49 @@ for i, subgraph in enumerate(wc_subgraphs):
     # does not contain an eulerian path
     try:
         path = find_eulerian_path(subgraph)
-
-        # find first two vertices in path
-        a, b = path.next()
-        first = a + b[-1]
-
-        # get rest of path using a generator expression
-        subseq = (c[-1] for _, c in path)
-
-        # print sequence in fasta format
-        print(">{}".format(i))
-        print_seq(first, subseq)
+        path.next()
 
     except nx.NetworkXError:
         # subgraph does not contain an eulerian path
-        # so do nothing
-        pass
+
+        # what follows is code that tries to extract
+        # possible sequences from the non-eulerian subgraph
+
+        # to do that, I set all nodes with in degree 0
+        # as possible sources and all nodes with out degree 0
+        # as possible targets.
+
+        # I then find a shortest path between all sources
+        # and all targets, if it exists, and print those
+        # paths as the contigs
+
+        # WARNING - HACK APPROACHING
+        # uncomment if you dare
+
+        sources = []
+        targets = []
+
+        for node in subgraph:
+            ind = subgraph.in_degree(node)
+            outd = subgraph.out_degree(node)
+            if ind == 0:
+                sources.append(node)
+            if outd == 0:
+                targets.append(node)
+
+        for j, source in enumerate(sources):
+            for k, target in enumerate(targets):
+                # try will throw if there is no path between source and target
+                try:
+                    sp = nx.shortest_path(subgraph, source, target)
+
+                    first = sp[0]
+                    subseq = (v[-1] for v in sp[1:])
+
+                    # print sequence in FASTA format
+                    print(">{}.{}.{}".format(i, j, k))
+                    print_seq(first, subseq)
+
+                except nx.NetworkXNoPath:
+                    # there is no path, so do nothing
+                    pass
