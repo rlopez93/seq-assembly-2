@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 """
 Usage: python assemble.py <FAST[AQ]> <ksize>
 """
