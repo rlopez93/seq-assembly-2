@@ -1,0 +1,1 @@
+/home/ricardo/research/khmer/lib/khmer.hh
