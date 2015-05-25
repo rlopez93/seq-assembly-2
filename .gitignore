@@ -5,5 +5,5 @@
 *.txt
 *.sra
 *.pyc
-old/*
+/* old/* */
 BLAST/*
