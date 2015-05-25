@@ -5,5 +5,13 @@
 *.txt
 *.sra
 *.pyc
+*.dot
+*.o
+*.exe
+*.reads
+*.png
+*.sh
+*.swp
 old/*
+experimental/*
 BLAST/*
